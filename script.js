@@ -8,17 +8,6 @@ function bookConstructor(title, author, pages, status) {
     this.status = status;
 };
 
-const Book1 = new bookConstructor("My little pony has a friend ","Dr.Dre", 234, "read");
-const Book2 = new bookConstructor("My little boy","Dr.me", 24, "not read");
-const Book3 = new bookConstructor("My pony","Dr.yo", 34, "read");
-
-
-myLibrary.push(Book1);
-myLibrary.push(Book2);
-myLibrary.push(Book3);
-
-
-
 function addBookToLibrary() { 
     // Fetches table element from DOM
     const table = document.querySelector('table');
@@ -51,5 +40,20 @@ function addBookToLibrary() {
     };   
 };
 
+document.addEventListener('submit', function (event) {
+	// Prevent default form submit
+	event.preventDefault();
 
-addBookToLibrary();
+    // Collecting user entries from FORM inputs
+    let title = document.querySelector('#title').value;
+    let author = document.querySelector('#author').value;
+    let pages = document.querySelector('#pages').value;
+    let status = document.querySelector('#status').value;
+
+    let NewBook = new bookConstructor(title, author,  pages, status);
+    myLibrary.push(NewBook);
+    addBookToLibrary();
+
+	// Clear the form fields
+	event.target.reset();
+});
