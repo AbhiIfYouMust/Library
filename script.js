@@ -1,4 +1,4 @@
-let myLibrary = [];
+const myLibrary = [];
 
 // Constructor function
 function bookConstructor(title, author, pages, status) {
@@ -11,6 +11,16 @@ function bookConstructor(title, author, pages, status) {
 function addBookToLibrary() { 
     // Fetches table element from DOM
     const table = document.querySelector('table');
+
+    // Clearing table so that previously entered data don't repeat
+    table.innerHTML = `
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Pages</th>
+                        <th>Delete</th>
+                        <th>Status</th>
+                    </tr>`;
 
     for(let i = 0; i < myLibrary.length; i++) {
         // Creating tableRow tag
@@ -40,6 +50,7 @@ function addBookToLibrary() {
     };   
 };
 
+// Collects data from user on clicking submit on form
 document.addEventListener('submit', function (event) {
 	// Prevent default form submit
 	event.preventDefault();
