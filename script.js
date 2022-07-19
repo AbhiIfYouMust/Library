@@ -1,5 +1,8 @@
 const myLibrary = [];
 
+// Fetches table element from DOM
+const table = document.querySelector('table');
+
 // Constructor function
 function bookConstructor(title, author, pages, status) {
     this.title = title;
@@ -8,18 +11,23 @@ function bookConstructor(title, author, pages, status) {
     this.status = status;
 };
 
-function addBookToLibrary() { 
-    // Fetches table element from DOM
-    const table = document.querySelector('table');
+bookConstructor.prototype.toggle = function() {
+    //Using ternary operator
+    this.status = this.status === "Read" ? "Not read" : "Read";
+    addBookToLibrary();
+};
 
+
+// Displays books inside myLibrary as table
+function addBookToLibrary() { 
     // Clearing table so that previously entered data don't repeat
     table.innerHTML = `
                     <tr>
                         <th>Title</th>
                         <th>Author</th>
                         <th>Pages</th>
-                        <th>Delete</th>
                         <th>Status</th>
+                        <th>Delete</th>
                     </tr>`;
 
     for(let i = 0; i < myLibrary.length; i++) {
@@ -37,7 +45,7 @@ function addBookToLibrary() {
         tableCellArray[0].textContent = myLibrary[i].title;
         tableCellArray[1].textContent = myLibrary[i].author;
         tableCellArray[2].textContent = myLibrary[i].pages;
-        tableCellArray[3].textContent = myLibrary[i].status;
+        tableCellArray[3].innerHTML = `<button id="toggle">${myLibrary[i].status}</button>`;
         tableCellArray[4].innerHTML = "<button>Delete</button>";
 
         // Adding tableRow inside table
