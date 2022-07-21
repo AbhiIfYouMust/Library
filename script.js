@@ -1,3 +1,4 @@
+// Stores book objects
 const myLibrary = [];
 
 // Fetches table element from DOM
@@ -11,16 +12,9 @@ function bookConstructor(title, author, pages, status) {
     this.status = status;
 };
 
-bookConstructor.prototype.toggle = function() {
-    //Using ternary operator
-    this.status = this.status === "Read" ? "Not read" : "Read";
-    addBookToLibrary();
-};
-
-
 // Displays books inside myLibrary as table
 function addBookToLibrary() { 
-    // Clearing table so that previously entered data don't repeat
+    // Clearing table so that previously entered data doesn't repeat
     table.innerHTML = `
                     <tr>
                         <th>Title</th>
@@ -45,8 +39,8 @@ function addBookToLibrary() {
         tableCellArray[0].textContent = myLibrary[i].title;
         tableCellArray[1].textContent = myLibrary[i].author;
         tableCellArray[2].textContent = myLibrary[i].pages;
-        tableCellArray[3].innerHTML = `<button id="toggle">${myLibrary[i].status}</button>`;
-        tableCellArray[4].innerHTML = "<button>Delete</button>";
+        tableCellArray[3].innerHTML = `<button class="toggle" id="TCT-${i}">${myLibrary[i].status}</button>`;
+        tableCellArray[4].innerHTML = `<button class="delete" id="TCD-${i}">Delete</button>`;
 
         // Adding tableRow inside table
         table.appendChild(tableRow);
@@ -58,8 +52,8 @@ function addBookToLibrary() {
     };   
 };
 
-// Collects data from user on clicking submit on form
-document.addEventListener('submit', function (event) {
+// Triggers on hitting submit button
+document.addEventListener('submit', function(event) {
 	// Prevent default form submit
 	event.preventDefault();
 
@@ -71,8 +65,35 @@ document.addEventListener('submit', function (event) {
 
     let NewBook = new bookConstructor(title, author,  pages, status);
     myLibrary.push(NewBook);
+
+    // Adding book on DOM
     addBookToLibrary();
 
 	// Clear the form fields
 	event.target.reset();
+});
+
+// Triggers on clicking buttons on table
+table.addEventListener("click", function(event) {
+    // Removes object from object array on clicking delete
+    if ( event.target.className === 'delete') {
+
+        // Extracts common number from id which is index of object
+        let id = (event.target.id).slice(4);
+        myLibrary.splice(id, 1); 
+
+        // Displays new array on table
+        addBookToLibrary();
+
+    // Changes status on clicking toggle button
+    } else if (event.target.className === 'toggle') {
+        // Extracts common number from id which is index of object
+        let id = (event.target.id).slice(4);
+
+        // Using ternary operator
+        myLibrary[id].status = myLibrary[id].status === 'Read' ? 'Not read': 'Read';
+
+        // Displays new array on table
+        addBookToLibrary();
+    };
 });
